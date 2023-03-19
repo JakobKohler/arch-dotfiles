@@ -1,0 +1,195 @@
+#Variables
+set $mod Mod4
+set $rofi /home/schasch/.config/rofi/launchers/type-1/launcher.sh
+set $powermenu /home/schasch/.config/rofi/powermenu/type-1/powermenu.sh
+set $applets /home/schasch/.config/rofi/applets/bin
+set $scripts /home/schasch/Scripts
+
+font pango:JetBrainsMonoNerdFont 10
+
+#i3
+exec --no-startup-id dex --autostart --environment i3
+
+#i3 lock
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym XF86AudioMute  exec --no-startup-id  $scripts/volumeNotifications.sh mute
+bindsym XF86AudioLowerVolume exec --no-startup-id $scripts/volumeNotifications.sh down
+bindsym XF86AudioRaiseVolume exec --no-startup-id $scripts/volumeNotifications.sh up
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec kitty
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start dmenu (a program launcher)
+# bindsym $mod+d exec --no-startup-id $rofi
+bindsym $mod+space exec $rofi
+#bindsym $mod+Tab exec $rofi tabmenu
+bindsym $mod+Shift+e exec $powermenu
+bindsym $mod+A exec $applets/apps.sh
+
+
+# Screenshotting
+bindsym $mod+Shift+S exec $applets/screenshot.sh
+bindsym Control+Shift+S exec $applets/screenshot.sh
+# Volume Control
+bindsym $mod+Shift+M exec $applets/volume.sh
+
+# focus control
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+#bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+# bindsym $mod+a focus parent
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 1 firefox
+bindsym $mod+2 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 2 kitty
+bindsym $mod+3 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 3 
+bindsym $mod+4 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 4 kitty
+bindsym $mod+5 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 5 
+bindsym $mod+6 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 6 thunderbird
+bindsym $mod+7 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 7 
+bindsym $mod+8 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 8 discord
+bindsym $mod+9 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 9 keepassxc
+bindsym $mod+0 exec --no-startup-id $scripts/i3Scripts/openWorkSpace.sh 10 spotify 
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+#bar {
+#       status_command i3status
+#}
+
+bindsym XF86MonBrightnessDown exec --no-startup-id $scripts/brightnessNotifications.sh down
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/Scripts/brightnessNotifications.sh up
+bindsym $mod+shift+x exec betterlockscreen -l dim
+bindsym Control+Shift+K exec ~/Scripts/keyboardSwitch.sh
+
+for_window [class=".*"] border pixel 0
+gaps inner 10
+gaps outer 5
+
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/draculaNeon.png
+
+# restart network manager
+exec --no-startup-id systemctl restart NetworkManager
+
+# Start up compositor
+exec_always --no-startup-id pkill picom; picom --no-use-damage
+
+# Start up dunst for notifications
+exec_always --no-startup-id pkill dunst; dunst
+
+# Giga Chad Move
+exec --no-startup-id mpv ~/RiceStuff/Sounds/startup.ogg &
